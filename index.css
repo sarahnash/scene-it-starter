@@ -1,16 +1,15 @@
 body {
-	background-color: #B2E9FD;
+	background-color: 	#101010;
 }
 
 .header h2 {
-	color: #DC4247;
+	color: white;
 }
 
 .header p {
-	color: #50524F;
+	color: white;
 }
 
 .results {
 	margin-top: 20px;
 }
-
