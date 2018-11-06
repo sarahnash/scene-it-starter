@@ -1,11 +1,9 @@
-var content = document.getElementById('resultsContainer')
-
-content.innerHTML = renderMovies()
-
-function renderMovies (movieArray) {
-  console.log(movieArray)
-  var movieHTML = movieArray.map(makeMovie).join('')
-  return movieHTML
+function renderMovies (movieData) {
+  document.getElementById('search-form').addEventListener('submit', function (e) {
+    e.preventDefault()
+    var movieHTML = movieData.map(makeMovie).join('')
+    $(movieHTML).appendTo('#resultsContainer')
+  })
 }
 
 function makeMovie (currentMovie) {
@@ -14,15 +12,36 @@ function makeMovie (currentMovie) {
           <div class="card-body d-flex" style="flex-direction: column; align-items: center;">
             <h5 class="card-title d-flex">${currentMovie.Title}</h5>
             <h5 class="card-text d-flex" style="margin-bottom: .75rem;">${currentMovie.Year}</h5>
-            <a href="#" class="btn btn-primary d-flex">Add!</a>
+            <a href="#" class="btn btn-primary d-flex" onclick=saveToWatchlist('${currentMovie.imdbID}')>Add!</a>
           </div>
           </div>`
 }
 
+function saveToWatchlist (imdbID) {
+  var movie = movieData.find(function (currentMovie) {
+    return currentMovie.imdbID === imdbID
+  })
+  var watchlistJSON = localStorage.getItem('watchlist')
+  console.log(watchlistJSON)
+  var watchlist = JSON.parse(watchlistJSON)
+  console.log(watchlist)
+  if (watchlist === null) {
+    watchlist = []
+    watchlist.push(movie)
+    console.log(watchlist)
+    watchlistJSON = JSON.stringify(watchlist)
+    console.log(watchlistJSON)
+    localStorage.setItem('watchlist', watchlistJSON)
+  } else {
+    watchlist.push(movie)
+    watchlistJSON = JSON.stringify(watchlist)
+    localStorage.setItem('watchlist', watchlistJSON)
+  }
+}
+
 function init () {
-  console.log('this is it')
-  renderMovies()
-  const movieArray = movieData
+  renderMovies(movieData)
+  saveToWatchlist(imdbID)
 }
 
 document.addEventListener('DOMContentLoaded', init)
