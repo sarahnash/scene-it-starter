@@ -8,7 +8,6 @@ function renderMovies () {
       var movieHTML = response.data.Search.map(makeMovie).join('')
       $(movieHTML).appendTo('#resultsContainer')
     })
-    
   })
 }
 
