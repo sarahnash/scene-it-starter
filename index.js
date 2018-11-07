@@ -9,7 +9,7 @@ function hitAPI (e) {
   e.preventDefault()
   var searchString = document.getElementById('search-bar').value
   var urlEncodedSearchString = encodeURIComponent(searchString)
-  axios.get('http://www.omdbapi.com/?apikey=3430a78&s=' + urlEncodedSearchString).then(userChoice)
+  axios.get('https://www.omdbapi.com/?apikey=3430a78&s=' + urlEncodedSearchString).then(userChoice)
 }
 
 function userChoice (response) {
