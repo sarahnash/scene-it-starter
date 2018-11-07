@@ -1,15 +1,36 @@
-function renderMovies () {
-  document.getElementById('search-form').addEventListener('submit', function (e) {
-    e.preventDefault()
-    var searchString = document.getElementById('search-bar').value
-    var urlEncodedSearchString = encodeURIComponent(searchString)
-    axios.get('http://www.omdbapi.com/?apikey=3430a78&s=' + urlEncodedSearchString).then(function (response) {
-      console.log(response.data.Search)
-      var movieHTML = response.data.Search.map(makeMovie).join('')
-      $(movieHTML).appendTo('#resultsContainer')
-    })
-  })
+var movieHTML = []
+var moviesArray = []
+
+function listenToSearch () {
+  document.getElementById('search-form').addEventListener('submit', hitAPI)
 }
+
+function hitAPI (e) {
+  e.preventDefault()
+  var searchString = document.getElementById('search-bar').value
+  var urlEncodedSearchString = encodeURIComponent(searchString)
+  axios.get('http://www.omdbapi.com/?apikey=3430a78&s=' + urlEncodedSearchString).then(userChoice)
+}
+
+function userChoice (response) {
+  moviesArray = response.data.Search
+  movieHTML = response.data.Search.map(makeMovie).join('')
+  $(movieHTML).appendTo('#resultsContainer')
+}
+
+// function renderMovies () {
+//   document.getElementById('search-form').addEventListener('submit', function (e) {
+//     e.preventDefault()
+//     var searchString = document.getElementById('search-bar').value
+//     var urlEncodedSearchString = encodeURIComponent(searchString)
+//     axios.get('http://www.omdbapi.com/?apikey=3430a78&s=' + urlEncodedSearchString).then(function (response) {
+//       console.log(response.data.Search)
+//       var movieHTML = response.data.Search.map(makeMovie).join('')
+//       $(movieHTML).appendTo('#resultsContainer')
+//     })
+//   })
+// }
+
 
 function makeMovie (currentMovie) {
   return `<div class="card" style="width: 20rem; background: darkgray; margin: 10px;">
@@ -23,19 +44,16 @@ function makeMovie (currentMovie) {
 }
 
 function saveToWatchlist (imdbID) {
-  var movie = movieData.find(function (currentMovie) {
+  console.log(imdbID)
+  var movie = moviesArray.find(function (currentMovie) {
     return currentMovie.imdbID === imdbID
   })
   var watchlistJSON = localStorage.getItem('watchlist')
-  console.log(watchlistJSON)
   var watchlist = JSON.parse(watchlistJSON)
-  console.log(watchlist)
   if (watchlist === null) {
     watchlist = []
     watchlist.push(movie)
-    console.log(watchlist)
     watchlistJSON = JSON.stringify(watchlist)
-    console.log(watchlistJSON)
     localStorage.setItem('watchlist', watchlistJSON)
   } else {
     watchlist.push(movie)
@@ -45,7 +63,7 @@ function saveToWatchlist (imdbID) {
 }
 
 function init () {
-  renderMovies()
+  listenToSearch()
 }
 
 document.addEventListener('DOMContentLoaded', init)
