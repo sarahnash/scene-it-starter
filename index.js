@@ -1,6 +1,11 @@
 function renderMovies (movieData) {
   document.getElementById('search-form').addEventListener('submit', function (e) {
     e.preventDefault()
+    var searchString = document.getElementById('search-bar').value
+    var urlEncodedSearchString = encodeURIComponent(searchString)
+    axios.get('http://www.omdbapi.com/?apikey=3430a78&s=' + urlEncodedSearchString).then(function (response) {
+      console.log(response.data.Search)
+    })
     var movieHTML = movieData.map(makeMovie).join('')
     $(movieHTML).appendTo('#resultsContainer')
   })
