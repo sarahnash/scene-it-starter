@@ -15,22 +15,15 @@ function hitAPI (e) {
 function userChoice (response) {
   moviesArray = response.data.Search
   movieHTML = response.data.Search.map(makeMovie).join('')
-  $(movieHTML).appendTo('#resultsContainer')
+  if (document.getElementById('resultsContainer').innerHTML === null) {
+    $(movieHTML).appendTo('#resultsContainer')
+    console.log(document.getElementById('resultsContainer').innerHTML)
+  } else {
+    document.getElementById('resultsContainer').innerHTML = null
+    $(movieHTML).appendTo('#resultsContainer')
+    console.log(document.getElementById('resultsContainer').innerHTML)
+  }
 }
-
-// function renderMovies () {
-//   document.getElementById('search-form').addEventListener('submit', function (e) {
-//     e.preventDefault()
-//     var searchString = document.getElementById('search-bar').value
-//     var urlEncodedSearchString = encodeURIComponent(searchString)
-//     axios.get('http://www.omdbapi.com/?apikey=3430a78&s=' + urlEncodedSearchString).then(function (response) {
-//       console.log(response.data.Search)
-//       var movieHTML = response.data.Search.map(makeMovie).join('')
-//       $(movieHTML).appendTo('#resultsContainer')
-//     })
-//   })
-// }
-
 
 function makeMovie (currentMovie) {
   return `<div class="card" style="width: 20rem; background: darkgray; margin: 10px;">
