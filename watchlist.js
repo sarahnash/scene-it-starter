@@ -9,7 +9,7 @@ function makeMovie (currentMovie) {
           <div class="card-body d-flex" style="flex-direction: column; align-items: center;">
             <h5 class="card-title d-flex">${currentMovie.Title}</h5>
             <h5 class="card-text d-flex" style="margin-bottom: .75rem;">${currentMovie.Year}</h5>
-            <a href="#" class="btn btn-primary d-flex" onclick=saveToWatchlist('${currentMovie.imdbID}')>Add!</a>
+            <a href="#" class="btn btn-primary d-flex" onclick=saveToWatchlist('${currentMovie.imdbID}')>Add</a>
           </div>
           </div>`
 }
